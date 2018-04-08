@@ -37,27 +37,27 @@ void setup() {
 }
 
 void loop() {
-  leds.setWire(offWire);
+
   leds.setStatus(B00000000);
   
   leds.update();
   delay(1000);
-  leds.setWire(wireLEDS);
   leds.setStatus(B11111111);
   
   leds.update();
-  //nextMorseState();
-  for( int i = 0; i < 4; i++ ){
-    char* temp = morse1[i];
-    for(int j = 0; j < sizeof(temp); j++) {
-      Serial.print(i);Serial.print(": ");Serial.println(temp[j]);
-      delay(500);
-    }
-  }
-  Serial.println(morse1[1][1] == 0);
-  Serial.println(morse1[1][0] == '-');
-  Serial.println(morse1[1][0] == '.');
   delay(1000);
+//  //nextMorseState();
+//  for( int i = 0; i < 4; i++ ){
+//    char* temp = morse1[i];
+//    for(int j = 0; j < sizeof(temp); j++) {
+//      Serial.print(i);Serial.print(": ");Serial.println(temp[j]);
+//      delay(500);
+//    }
+//  }
+//  Serial.println(morse1[1][1] == 0);
+//  Serial.println(morse1[1][0] == '-');
+//  Serial.println(morse1[1][0] == '.');
+//  delay(1000);
 }
 
 
@@ -173,7 +173,7 @@ void nextMorseState() {
     case '^': 
                symbolIndex1 = 0;
                letterIndex1++;
-               currentLetter1 = morse[letterIndex1];
+               currentLetter1 = morse1[letterIndex1];
                break;
     case '*':
               symbolIndex1++;

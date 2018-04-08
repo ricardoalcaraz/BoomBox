@@ -33,7 +33,6 @@ void LED::update() {
   SPI.transfer(cutWireGame[1]);
   SPI.transfer(cutWireGame[2]);
   SPI.transfer(cutWireGame[3]);
-  SPI.transfer(B11111111);
   digitalWrite(SSPin, HIGH);
 }
 
