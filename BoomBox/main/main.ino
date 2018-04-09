@@ -1,5 +1,8 @@
 
 #include "LED.h"
+#include "ScoreKeeper.h"
+
+ScoreKeeper score = ScoreKeeper(4,6);
 
 LED leds;
 uint8_t wireLEDS[4] = {255,255,255,255};
@@ -28,23 +31,18 @@ uint8_t currentTimeUnits = 0;
 
 
 void setup() {
-  leds.setMorse1(true);
-  leds.setMorse2(true);
   leds.setWire(wireLEDS);
   leds.setStatus(B11111111);
   leds.update();
-  morseCodeInit();
+  //morseCodeInit();
+  Serial.begin(9600);
+  while(!Serial);
+  
 }
 
 void loop() {
+  
 
-  leds.setStatus(B00000000);
-  
-  leds.update();
-  delay(1000);
-  leds.setStatus(B11111111);
-  
-  leds.update();
   delay(1000);
 //  //nextMorseState();
 //  for( int i = 0; i < 4; i++ ){
