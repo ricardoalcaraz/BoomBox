@@ -2,7 +2,6 @@
 #include "LED.h"
 #include "ScoreKeeper.h"
 
-ScoreKeeper score = ScoreKeeper(4,6);
 
 LED leds;
 uint8_t wireLEDS[4] = {255,255,255,255};

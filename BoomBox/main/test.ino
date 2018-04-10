@@ -1,6 +1,8 @@
+/*Test function for ScoreKeeper class*/
 void testScoreKeeper() {
   static uint8_t numberGames = 6;
   static uint8_t totalErrors = 6;
+  static ScoreKeeper score = ScoreKeeper(numberGames, totalErrors);
   score.gameCompleted();
   score.userMadeError();
   score.gameCompleted();
