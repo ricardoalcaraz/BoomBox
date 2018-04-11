@@ -1,18 +1,18 @@
 
 #include "LED.h"
 #include "ScoreKeeper.h"
-
-#include "ObserverTester.h"
-
+#include "ClockDisplay.h"
 #include "CountdownTimer.h"
 
-CountdownTimer clock1;
-ObserverTester test;
-ObserverTester test2;
+//Pin declarations
+const uint8_t CLK_Pin = 23;
+const uint8_t DIO_Pin = 22;
 
+//Initialize needed objects
+CountdownTimer clock1;
+ClockDisplay clockDisplay( CLK_Pin, DIO_Pin );
+ScoreKeeper score;
 LED leds;
-uint8_t wireLEDS[4] = {255,255,255,255};
-uint8_t offWire[4] = {0,0,0, 0};
 
 /*--------------------------------------------------*/
 //-------------------------Initializers-------------------------
@@ -37,8 +37,8 @@ uint8_t currentTimeUnits = 0;
 
 
 void setup() {
-  test.attachSubject( clock1.getSubject() );
-  clock1.startCountdown( 20 );
+  clockDisplay.attachSubject( clock1.getSubject() );
+  clock1.startCountdown( 500 );
   pinMode( 23, OUTPUT);
   Serial.begin(9600);
   while(!Serial);
