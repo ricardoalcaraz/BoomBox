@@ -27,6 +27,9 @@
 #define SEG_F   0b00100000
 #define SEG_G   0b01000000
 
+// Defines which element's highest bit is the colon's control bit
+#define COLON_POSITION 1
+
 class TM1637Display {
 
 public:
@@ -36,16 +39,19 @@ public:
   //! @param pinClk - The number of the digital pin connected to the clock pin of the module
   //! @param pinDIO - The number of the digital pin connected to the DIO pin of the module
   TM1637Display(uint8_t pinClk, uint8_t pinDIO);
-
+  
   //! Sets the brightness of the display.
   //!
   //! The setting takes effect when a command is given to change the data being
   //! displayed.
   //!
-  //! @param brightness A number from 0 (lowes brightness) to 7 (highest brightness)
-  //! @param on Turn display on or off
-  void setBrightness(uint8_t brightness, bool on = true);
-
+  //! @param brightness A number from 0 (Off) to 8 (highest brightness)
+  void setBrightness(uint8_t brightness);
+  
+  //! Sets the colon indicator mode on or off
+  //! @param colon When true, lights up the colon on next use of showNumberDec
+  void setColon(const bool colon);
+  
   //! Display arbitrary data on the module
   //!
   //! This function receives raw segment values as input and displays them. The segment data
@@ -59,7 +65,7 @@ public:
   //! @param length The number of digits to be modified
   //! @param pos The position from which to start the modification (0 - leftmost, 3 - rightmost)
   void setSegments(const uint8_t segments[], uint8_t length = 4, uint8_t pos = 0);
-
+  
   //! Displayes a decimal number
   //!
   //! Dispalyes the given argument as a decimal number
@@ -70,28 +76,9 @@ public:
   //! @param length The number of digits to set. The user must ensure that the number to be shown
   //!        fits to the number of digits requested (for example, if two digits are to be displayed,
   //!        the number must be between 0 to 99)
-  //! @param pos The position most significant digit (0 - leftmost, 3 - rightmost)
-  void showNumberDec(int num, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
-
-  //! Displayes a decimal number, with dot control
-  //!
-  //! Dispalyes the given argument as a decimal number. The dots between the digits (or colon)
-  //! can be individually controlled
-  //!
-  //! @param num The number to be shown
-  //! @param dots Dot enable. The argument is a bitmask, with each bit corresponding to a dot
-  //!        between the digits (or colon mark, as implemented by each module). The MSB is the 
-  //!        leftmost dot of the digit being update. For example, if pos is 1, the MSB of dots
-  //!        will correspond the dot near digit no. 2 from the left. Dots are updated only on
-  //!        those digits actually being update (that is, no more than len digits)
-  //! @param leading_zero When true, leading zeros are displayed. Otherwise unnecessary digits are
-  //!        blank
-  //! @param length The number of digits to set. The user must ensure that the number to be shown
-  //!        fits to the number of digits requested (for example, if two digits are to be displayed,
-  //!        the number must be between 0 to 99)
   //! @param pos The position least significant digit (0 - leftmost, 3 - rightmost)
-  void showNumberDecEx(int num, uint8_t dots = 0, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
-
+  void showNumberDec(int num, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
+  
   //! Translate a single digit into 7 segment code
   //!
   //! The method accepts a number between 0 - 15 and converts it to the
@@ -105,17 +92,18 @@ public:
 
 protected:
    void bitDelay();
-
+   
    void start();
-
+   
    void stop();
-
+   
    bool writeByte(uint8_t b);
-
+   
 private:
 	uint8_t m_pinClk;
 	uint8_t m_pinDIO;
 	uint8_t m_brightness;
+  bool m_colon;
 };
 
 #endif // __TM1637DISPLAY__

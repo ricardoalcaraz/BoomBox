@@ -11,7 +11,6 @@ const uint8_t DIO_Pin = 22;
 //Initialize needed objects
 CountdownTimer clock1;
 ClockDisplay clockDisplay( CLK_Pin, DIO_Pin );
-ScoreKeeper score;
 LED leds;
 
 /*--------------------------------------------------*/
@@ -38,10 +37,7 @@ uint8_t currentTimeUnits = 0;
 
 void setup() {
   clockDisplay.attachSubject( clock1.getSubject() );
-  clock1.startCountdown( 500 );
-  pinMode( 23, OUTPUT);
-  Serial.begin(9600);
-  while(!Serial);
+  clock1.startCountdown( 360 );
 
   
 }
