@@ -2,6 +2,13 @@
 #include "LED.h"
 #include "ScoreKeeper.h"
 
+#include "ObserverTester.h"
+
+#include "CountdownTimer.h"
+
+CountdownTimer clock1;
+ObserverTester test;
+ObserverTester test2;
 
 LED leds;
 uint8_t wireLEDS[4] = {255,255,255,255};
@@ -30,19 +37,18 @@ uint8_t currentTimeUnits = 0;
 
 
 void setup() {
-  leds.setWire(wireLEDS);
-  leds.setStatus(B11111111);
-  leds.update();
-  //morseCodeInit();
+  test.attachSubject( clock1.getSubject() );
+  clock1.startCountdown( 20 );
+  pinMode( 23, OUTPUT);
   Serial.begin(9600);
   while(!Serial);
+
   
 }
 
 void loop() {
-  
 
-  delay(1000);
+  //subject.unregisterObserver( 1 );
 //  //nextMorseState();
 //  for( int i = 0; i < 4; i++ ){
 //    char* temp = morse1[i];
