@@ -4,8 +4,9 @@
 #include "Arduino.h"
 #include "Subject.h"
 
-/*Countdown clock. Will tick down from the start point to 0 seconds*/
+/*Countdown clock. Will tick down from the start point to 0 seconds then stop*/
 //NOTE: Makes use of teensy exclusive IntervalTimer, this would have to be modified for use in any other hardware
+
 class CountdownTimer:public Subject {
 	public:
 		CountdownTimer();
@@ -13,6 +14,7 @@ class CountdownTimer:public Subject {
 		void addSeconds( uint8_t seconds );
 		void resetCountdown();
 		void stopCountdown();
+    void startCountdown();
 		void startCountdown( uint16_t initialTime );
     void countdown();
     static volatile int16_t secondsLeft;
@@ -21,7 +23,6 @@ class CountdownTimer:public Subject {
 	private:
 		static int16_t initialTime;
 		IntervalTimer clockTimer;
-    void notify();
     static Subject subj;
 };
 

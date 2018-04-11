@@ -3,6 +3,9 @@
 #include "Arduino.h"
 class Observer;
 
+/*Class to follow the observer design pattern and provide an easy avenue of alerting
+ *other objects when a values has changed. Size is currently fixed at 5 but can be increased.
+ */
 class Subject {
 	public:
 		Subject();
