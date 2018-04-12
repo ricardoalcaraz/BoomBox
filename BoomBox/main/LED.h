@@ -29,11 +29,17 @@ class LED {
 		void update();
 		void setStatus(uint8_t status);
 		void setWire(uint8_t arr[]);
-		void setMorse1(bool state);
-		void setMorse2(bool state);
+		void setMorse1();
+		void setMorse2();
+		void clearMorse1();
+		void clearMorse2();
 	private:
 		uint8_t statusLEDs;
-		uint8_t morseLEDs;
+		uint8_t byte1;
+		uint8_t byte2;
+		uint8_t byte3;
+		uint8_t byte4;
+		uint8_t byte5;
 		uint8_t cutWireGame[4];
 		const uint8_t SSPin = 10;
 };

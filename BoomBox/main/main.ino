@@ -1,9 +1,17 @@
 
 #include "LED.h"
+#include "ScoreKeeper.h"
+#include "ClockDisplay.h"
+#include "CountdownTimer.h"
 
+//Pin declarations
+const uint8_t CLK_Pin = 23;
+const uint8_t DIO_Pin = 22;
+
+//Initialize needed objects
+CountdownTimer clock1;
+ClockDisplay clockDisplay( CLK_Pin, DIO_Pin );
 LED leds;
-uint8_t wireLEDS[4] = {255,255,255,255};
-uint8_t offWire[4] = {0,0,0, 0};
 
 /*--------------------------------------------------*/
 //-------------------------Initializers-------------------------
@@ -28,24 +36,15 @@ uint8_t currentTimeUnits = 0;
 
 
 void setup() {
-  leds.setMorse1(true);
-  leds.setMorse2(true);
-  leds.setWire(wireLEDS);
-  leds.setStatus(B11111111);
-  leds.update();
-  morseCodeInit();
+  clockDisplay.attachSubject( clock1.getSubject() );
+  clock1.startCountdown( 360 );
+
+  
 }
 
 void loop() {
 
-  leds.setStatus(B00000000);
-  
-  leds.update();
-  delay(1000);
-  leds.setStatus(B11111111);
-  
-  leds.update();
-  delay(1000);
+  //subject.unregisterObserver( 1 );
 //  //nextMorseState();
 //  for( int i = 0; i < 4; i++ ){
 //    char* temp = morse1[i];
