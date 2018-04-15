@@ -22,7 +22,7 @@ uint32_t trng(){
 }
 
 void rngsetup() {
-     SIM_SCGC6 |= SIM_SCGC6_RNGA; // enable RNG
+    SIM_SCGC6 |= SIM_SCGC6_RNGA; // enable RNG
     PRREG(SIM_SCGC6);
     RNG_CR &= ~RNG_CR_SLP_MASK;
     RNG_CR |= RNG_CR_HA_MASK;  // high assurance, not needed
