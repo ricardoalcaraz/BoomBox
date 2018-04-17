@@ -32,14 +32,29 @@ struct BoomBox_t {
 BoomBox boomBox;
 
 void setup() {
+
+  //Initialize the leds
   led.init();
-  clockDisplay.attachSubject( countdownClock.getSubject() );
-  countdownClock.startCountdown( 360 );
-  rngsetup(); 
-  halfSecClk.start();
-  morse.attachSubject( halfSecondClk.getSubject() );
+  //Initialize wordscreen
   wordScreen.init( trng() );
+
+  //Initialize Simon Says
   simonSays.init( wordScreen.getCode() );
+
+  //Create clock that countdown every second
+  countdownClock.startCountdown( 360 );
+  //Update any observers that may need this info
+  clockDisplay.attachSubject( countdownClock.getSubject() );
+
+  rngsetup(); //temporary will be replaced with random object later
+
+  //Start clock that updates observers every half second
+  halfSecClk.start();
+  //Attach any interested observers to half second clock
+  morse.attachSubject( halfSecondClk.getSubject() );
+  simonSays.attachSubject( halfSecondClk.getSubject() );
+  
+  //Initialize main game structure
   boomBox.size = 1;
   boomBox.games[0] = &simonSays;
   Serial.begin( 57600 );
@@ -50,7 +65,7 @@ void loop() {
   	boomBox.games[i]->updateModule();
   }
   led.update();
-  delay(100);
+  delay(100);//Temporary delay to stop game from updating too rapidly
 }
 
 
