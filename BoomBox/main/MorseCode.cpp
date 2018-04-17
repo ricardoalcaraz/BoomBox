@@ -1,4 +1,9 @@
-#ifndef MorseCode_h
-#define MorseCode_h
+#include "MorseCode.h"
 
-#include "Arduino.h"
+//Constructor
+MorseCode::MorseCode() {
+
+}
+
+void MorseCode::receiveDataFromSubject( Subject *subj ) {
+}

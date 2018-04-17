@@ -2,13 +2,18 @@
 #define MorseCode_h
 
 #include "Arduino.h"
+#include "Observer.h"
 
-class MorseCode {
+class MorseCode : public Observer {
   public:
     MorseCode();
     void init();
+    void receiveDataFromSubject( Subject* );
+  private:
+
 
 };
+
 
 /*------------Rules for Morse Code-----------------
 There are rules to help people distinguish dots from dashes in Morse code.
@@ -45,6 +50,7 @@ X   -..-
 Y   -.--
 Z   --..
 */
+/*
 char* convertMorse( char morseWord ) {
   static int j = 0;
   char* morse;
@@ -101,6 +107,7 @@ This function should only run when the state has changed
 since it changes how many time units will pass before this 
 function is ran again. 
 */
+/*
 void nextMorseState() {
   noInterrupts();
   static uint8_t letterIndex1 = 0;
@@ -148,4 +155,5 @@ void nextMorseState() {
 
   interrupts();
 }
-
+*/
+#endif

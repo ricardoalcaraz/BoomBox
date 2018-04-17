@@ -1,6 +1,4 @@
-#include "Arduino.h"
 #include "LED.h"
-#include "SPI.h"
 
 LED::LED() {
 	init();

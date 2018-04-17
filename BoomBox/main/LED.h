@@ -2,6 +2,7 @@
 #define LED_h
 
 #include "Arduino.h"
+#include "SPI.h"
 //**************************************************************//
 //  Name    : SPI LEDs                                          //
 //  Author  : Ricardo Alcaraz                                   //
