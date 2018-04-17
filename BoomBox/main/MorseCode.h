@@ -1,3 +1,15 @@
+#ifndef MorseCode_h
+#define MorseCode_h
+
+#include "Arduino.h"
+
+class MorseCode {
+  public:
+    MorseCode();
+    void init();
+
+};
+
 /*------------Rules for Morse Code-----------------
 There are rules to help people distinguish dots from dashes in Morse code.
    1. The length of a dot is 1 time unit.
