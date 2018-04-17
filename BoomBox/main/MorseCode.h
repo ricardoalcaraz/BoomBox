@@ -3,18 +3,7 @@
 
 #include "Arduino.h"
 #include "Observer.h"
-
-class MorseCode : public Observer {
-  public:
-    MorseCode();
-    void init();
-    void receiveDataFromSubject( Subject* );
-  private:
-
-
-};
-
-
+#include "LED.h"
 /*------------Rules for Morse Code-----------------
 There are rules to help people distinguish dots from dashes in Morse code.
    1. The length of a dot is 1 time unit.
@@ -50,6 +39,26 @@ X   -..-
 Y   -.--
 Z   --..
 */
+class MorseCode : public Observer {
+  public:
+    MorseCode(uint8_t code, LED*);
+    void receiveDataFromSubject( Subject* );
+  private:
+    LED* led;
+    char* convertMorse( char morseWord ); 
+    char word1[4];
+    char word2[4];
+    char* morse1[4];
+    char* morse2[4];
+    void nextState();
+    char currentState1;
+    char currentState2;
+    uint8_t timeUnits1;
+    uint8_t timeUnits2;
+};
+
+
+
 /*
 char* convertMorse( char morseWord ) {
   static int j = 0;
