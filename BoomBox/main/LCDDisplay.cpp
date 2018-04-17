@@ -1,5 +1,4 @@
 #include <Wire.h>  // Comes with Arduino IDE
-#include "LiquidCrystal_I2C.h"
 #include "LCDDisplay.h"
 
 #include "Arduino.h"

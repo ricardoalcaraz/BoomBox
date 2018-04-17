@@ -3,34 +3,37 @@
 #include "ClockDisplay.h"
 #include "CountdownTimer.h"
 #include "LCDDisplay.h"
+#include "HalfSecondTimer.h"
+#include "MorseCode.h"
 
 //Pin declarations
 const uint8_t CLK_Pin = 23;
 const uint8_t DIO_Pin = 22;
 
 //Initialize needed objects
-CountdownTimer clock1;
+LED led;
+CountdownTimer countdownClock;
 ClockDisplay clockDisplay( CLK_Pin, DIO_Pin );
-LED leds;
 LCDDisplay wordScreen;
-
-
-
-
+HalfSecondTimer halfSecClk;
+MorseCode morse( 1, &led );
 //--------------------------------------------------
 
 
 void setup() {
-  clockDisplay.attachSubject( clock1.getSubject() );
-  clock1.startCountdown( 360 );
+  led.init();
+  clockDisplay.attachSubject( countdownClock.getSubject() );
+  countdownClock.startCountdown( 360 );
   rngsetup(); 
+  halfSecClk.start();
+  morse.attachSubject( halfSecondClk.getSubject() );
   wordScreen.init( trng() );
-  
+  Serial.begin( 57600 );
 }
 
 void loop() {
-
+  led.update();
+  delay(100);
 }
-
 
 

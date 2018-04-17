@@ -1,3 +1,6 @@
+#ifndef Subject_h
+#define Subject_h
+
 #define SIZE 5
 
 #include "Arduino.h"
@@ -20,3 +23,5 @@ class Subject {
 		Observer* observerList[SIZE];
 		uint8_t currentInd;
 };
+
+#endif
