@@ -4,6 +4,9 @@ const char pear[4] = {'p','e','a','r'};
 const char pair[4] = {'p','a','i','r'};
 const char pare[4] = {'p','a','r','e'};
 //Constructor
+/*Picks the words that will be displayed onto the two
+ *leds depending on the input code then updates the led value
+ *in the led class*/
 MorseCode::MorseCode(uint8_t code, LED* led) {
   this->led = led;
   //Pick which words will be displayed on the LEDs
@@ -30,38 +33,39 @@ MorseCode::MorseCode(uint8_t code, LED* led) {
 
 }
 
-/*
- * . 1 time unit
- * - 3 time units
- * space between words is 7 time units
- * space between letters is 3 time units
- */
+/*Called every time the associated timer is changed
+ *Updates a counter and if the counter is equal to
+ *time units variable then the next state is determined*/
 void MorseCode::receiveDataFromSubject( Subject *subj ) {
   static uint8_t word1Counter = 0;
   static uint8_t word2Counter = 0;
   word1Counter++;
   word2Counter++;
   if( word1Counter > timeUnits1 ) {
-    nextState();
+    nextState1();
     word1Counter = 0;
+  }
+  if( word2Counter > timeUnits2 ) {
+    nextState2();
     word2Counter = 0;
   }
   
 }
 
-void MorseCode::nextState() {
+/*FOR REFERENCE
+ * . 1 time unit
+ * - 3 time units
+ * space between words is 7 time units
+ * space between letters is 3 time units
+ */
+/*Determine the next state for led 1*/
+void MorseCode::nextState1() {
   static uint8_t letterIndex1 = 0;
-  static uint8_t letterIndex2 = 0;
   static uint8_t symbolIndex1 = 0; 
-  static uint8_t symbolIndex2 = 0;
   static char* currentLetter1 = morse1[0];
-  static char* currentLetter2 = morse2[0];
-  static uint8_t symbolSize1 = sizeof(morse1[0]);
-  static uint8_t symbolSize2 = sizeof(morse2[1]);
   static char currentSymbol1 = currentLetter1[0];
   static char nextSymbol1 = currentSymbol1;
-  static char currentSymbol2 = currentLetter2[0];
-  static char nextSymbol2 = currentSymbol2;
+  
   
 
   switch( currentSymbol1 ) {
@@ -72,7 +76,6 @@ void MorseCode::nextState() {
       letterIndex1 = 0;
       symbolIndex1 = 0;
       currentLetter1 = morse1[0];
-      symbolSize1 = sizeof( currentLetter1 );
       nextSymbol1 = currentLetter1[ symbolIndex1];
       break;
 
@@ -89,7 +92,6 @@ void MorseCode::nextState() {
       symbolIndex1 = 0;
       letterIndex1++;
       currentLetter1 = morse1[letterIndex1];
-      symbolSize1 = sizeof( currentLetter1 );
       nextSymbol1 = currentLetter1[ symbolIndex1 ]; 
       break;
 
@@ -118,6 +120,18 @@ void MorseCode::nextState() {
       break;
   }
 
+  
+  currentSymbol1 = nextSymbol1;
+
+}
+
+/*Determine the next state for led 1*/
+void MorseCode::nextState2() {
+  static uint8_t letterIndex2 = 0;
+  static uint8_t symbolIndex2 = 0;
+  static char* currentLetter2 = morse2[0];
+  static char currentSymbol2 = currentLetter2[0];
+  static char nextSymbol2 = currentSymbol2;
   switch( currentSymbol2 ) {
 
     case '#'://designated as space between words
@@ -126,7 +140,6 @@ void MorseCode::nextState() {
       letterIndex2 = 0;
       symbolIndex2 = 0;
       currentLetter2 = morse2[0];
-      symbolSize2 = sizeof( currentLetter2 );
       nextSymbol2 = currentLetter2[ symbolIndex2];
       break;
 
@@ -143,7 +156,6 @@ void MorseCode::nextState() {
       symbolIndex2 = 0;
       letterIndex2++;
       currentLetter2 = morse2[letterIndex2];
-      symbolSize2 = sizeof( currentLetter2 );
       nextSymbol2 = currentLetter2[ symbolIndex2 ]; 
       break;
 
@@ -171,11 +183,11 @@ void MorseCode::nextState() {
       }
       break;
   }
-  currentSymbol1 = nextSymbol1;
   currentSymbol2 = nextSymbol2;
-
 }
 
+/*Convert input characters in morse
+ *Will return a pointer to the morse generated*/
 char* MorseCode::convertMorse( char morseChar ) {
   char* morse;
   switch ( morseChar ) {
