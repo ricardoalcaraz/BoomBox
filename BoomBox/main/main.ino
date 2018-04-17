@@ -6,7 +6,7 @@
 #include "SimonSaysModule.h"
 #include "HalfSecondTimer.h"
 #include "MorseCode.h"
-
+#include "SimonSaysModule.h"
 //Pin declarations
 const uint8_t CLK_Pin = 23;
 const uint8_t DIO_Pin = 22;
@@ -16,6 +16,7 @@ LED led;
 CountdownTimer countdownClock;
 ClockDisplay clockDisplay( CLK_Pin, DIO_Pin );
 LCDDisplay wordScreen;
+SimonSaysModule simonSays( &led );
 
 uint8_t wordScreenCode;
 

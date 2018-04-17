@@ -1,5 +1,3 @@
-
-#include "Arduino.h"
 #include "RandomNumber.h"
 
 RandomNumber::RandomNumber(  ) {

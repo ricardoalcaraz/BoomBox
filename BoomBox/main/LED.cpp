@@ -26,11 +26,11 @@ void LED::setSSPin( uint8_t pin ) {
  */
 void LED::update() {
   digitalWrite(SSPin, LOW);
-  SPI.transfer(byte5);
+  SPI.transfer(byte1);
   SPI.transfer(byte2);
   SPI.transfer(byte3);
   SPI.transfer(byte4);
-  SPI.transfer(byte1);
+  SPI.transfer(byte5);
   digitalWrite(SSPin, HIGH);
 }
 
@@ -73,7 +73,9 @@ void LED::clearAllLEDS() {
 
 /*Set the status LEDs*/
 void LED::setStatus(uint8_t status){
-	statusLEDs = status;
+	uint8_t statusMask = status;
+  statusMask &= B11111100; //clear last two leds since these are the morse code leds
+  statusLEDs |= statusMask;
 }
 
 

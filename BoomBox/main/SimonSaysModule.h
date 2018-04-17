@@ -1,27 +1,34 @@
 #ifndef SimonSaysModule_h
 #define SimonSaysModule_h
-#include <Bounce2.h>
+//Any libraries should go in the same folder and referenced with quotation marks
+//so we can all have the same behavior and not have to install libraries
+#include "Bounce2.h"
 #include "LED.h"
 #include "RandomNumber.h"
-
+#include "GameModule.h"
+#include "Observer.h"
 #include "Arduino.h"
 
 // Name: Simon Says Game
 // Author: Kristen Oduca
 // Version: 1.0
 // Notes: Game module for Simon Says. User must repeat displayed sequence	
-
-class SimonSaysModule{
+//
+//
+//Inherits from Game Module class and Observer class
+class SimonSaysModule : public GameModule, public Observer{
 	public: 
-		SimonSaysModule( uint8_t codeWord );
+		SimonSaysModule( uint8_t codeWord, LED* );
 		bool isGameCompleted();
 		uint8_t numberErrors();
 		void init();
 		void updateModule();
 		void terminate();
+		void receiveDataFromSubject( Subject* );
+
 	private: 
 		// Used to display LEDS
-		LED leds;
+		LED* leds;//Points to object that holds the data
 		
 		RandomNumber ranNum;
 

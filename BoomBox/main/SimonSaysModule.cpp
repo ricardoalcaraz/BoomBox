@@ -1,11 +1,9 @@
-
-#include <Bounce2.h>
-#include "LED.h"
-#include "Arduino.h"
+//Only the header file should be include in the cpp
 #include "SimonSaysModule.h"
 
 
-SimonSaysModule::SimonSaysModule( uint8_t codeWord ) {
+SimonSaysModule::SimonSaysModule( uint8_t codeWord, LED* led ) {
+	this->leds = led;
 	this->code = codeWord;
 }
 
@@ -13,7 +11,6 @@ void SimonSaysModule::init() {
 	initializeLEDSequence();
 	initializeButtonSequence( code );
 	initializeButtons();
-	initializeLEDs();
 }
 
 bool SimonSaysModule::isGameCompleted() {
@@ -30,15 +27,10 @@ void SimonSaysModule::updateModule() {
 }
 
 void SimonSaysModule::terminate() {
-	leds.setStatus( LEDoff );
-	leds.update();	
+	leds->setStatus( LEDoff );
 }
 
 void SimonSaysModule::initializeLEDSequence() {
-	
-	Serial.begin(9600);
-	Serial.println("Finished Setup");
-	  
 	// Empty space between sequences
 	simonSaysSequence[0] = 0;
 	simonSaysSequence[1] = 0;
@@ -192,12 +184,6 @@ void SimonSaysModule::initializeButtons() {
 	purple.interval( 5 );
 }
 
-void SimonSaysModule::initializeLEDs() {
-	// Initalize LED
-	leds.init();
-	// Starts time every half a second
-	simonSaysTimer.begin( displaySimonSays, 500000 );
-}
 
 void SimonSaysModule::playSimonSays() {
 	static uint8_t buttonPressed = 0;
@@ -233,14 +219,13 @@ void SimonSaysModule::playSimonSays() {
 			simonSaysRound = 2;
 			buttonRound = 2;
 			currentSSDisplay = 0;
-			leds.setStatus( B11111111 );
-			leds.update();
+			leds->setStatus( B11111111 );
 		}
 	}
 }
 
 
-void SimonSaysModule::displaySimonSays(){
+void SimonSaysModule::displaySimonSays( ){
 	if ( simonSaysRound != 10 ) { 
 		// What LED is displayed 
 		static uint8_t displayLED = B00000000;
@@ -282,12 +267,13 @@ void SimonSaysModule::displaySimonSays(){
 			currentSSDisplay = 2;
 		}
 
-		leds.setStatus( displayLED );
-		leds.update();
+		leds->setStatus( displayLED );
 	} else {
 		gameWon = true;
-		leds.setStatus( LEDoff );
-		leds.update();
+		leds->setStatus( LEDoff );
 	}
 }
 		
+void SimonSaysModule::receiveDataFromSubject( Subject *subj ) {
+	displaySimonSays();
+}
