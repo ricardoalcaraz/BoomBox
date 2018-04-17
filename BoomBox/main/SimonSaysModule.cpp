@@ -2,12 +2,12 @@
 #include "SimonSaysModule.h"
 
 
-SimonSaysModule::SimonSaysModule( uint8_t codeWord, LED* led ) {
+SimonSaysModule::SimonSaysModule( LED* led ) {
 	this->leds = led;
-	this->code = codeWord;
 }
 
-void SimonSaysModule::init() {
+void SimonSaysModule::init(uint8_t code) {
+	this->code = code;
 	initializeLEDSequence();
 	initializeButtonSequence( code );
 	initializeButtons();

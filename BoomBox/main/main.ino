@@ -24,6 +24,12 @@ HalfSecondTimer halfSecClk;
 MorseCode morse( 1, &led );
 //--------------------------------------------------
 
+struct BoomBox_t {
+  GameModule** games = new GameModule*[6];
+  uint8_t size;
+}; typedef struct BoomBox_t BoomBox;
+
+BoomBox boomBox;
 
 void setup() {
   led.init();
@@ -33,11 +39,16 @@ void setup() {
   halfSecClk.start();
   morse.attachSubject( halfSecondClk.getSubject() );
   wordScreen.init( trng() );
-  wordScreenCode = wordScreen.getCode();
+  simonSays.init( wordScreen.getCode() );
+  boomBox.size = 1;
+  boomBox.games[0] = &simonSays;
   Serial.begin( 57600 );
 }
 
 void loop() {
+  for( int i = 0; i < boomBox.size; i++ ) {
+  	boomBox.games[i]->updateModule();
+  }
   led.update();
   delay(100);
 }

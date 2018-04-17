@@ -18,10 +18,10 @@
 //Inherits from Game Module class and Observer class
 class SimonSaysModule : public GameModule, public Observer{
 	public: 
-		SimonSaysModule( uint8_t codeWord, LED* );
+		SimonSaysModule( LED* );
 		bool isGameCompleted();
 		uint8_t numberErrors();
-		void init();
+		void init( uint8_t code );
 		void updateModule();
 		void terminate();
 		void receiveDataFromSubject( Subject* );
