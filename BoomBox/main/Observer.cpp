@@ -5,3 +5,5 @@
 void Observer::attachSubject( Subject *subject ) {
 	subject->registerObserver( this );
 }
+
+

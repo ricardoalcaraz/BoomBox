@@ -51,7 +51,7 @@ void CountdownTimer::startCountdown( uint16_t initialTime ) {
   secondsLeft = initialTime;
   subj.setVal( secondsLeft );
 	clockTimer.begin( outer_ISR, 1000000 );
-  clockTimer.priority( 2 );
+  clockTimer.priority( 10 );
 }
 
 /*Decrement the time left every second and notify any curious observers.
