@@ -7,6 +7,7 @@
 #include "HalfSecondTimer.h"
 #include "MorseCode.h"
 #include "SimonSaysModule.h"
+
 //Pin declarations
 const uint8_t CLK_Pin = 23;
 const uint8_t DIO_Pin = 22;
@@ -24,6 +25,7 @@ HalfSecondTimer halfSecClk;
 MorseCode morse( 1, &led );
 //--------------------------------------------------
 
+// WHAT DOES THIS DOO????
 struct BoomBox_t {
   GameModule** games = new GameModule*[6];
   uint8_t size;
@@ -55,8 +57,9 @@ void setup() {
   simonSays.attachSubject( halfSecondClk.getSubject() );
   
   //Initialize main game structure
+  // WHAT DOES THIS DO
   boomBox.size = 1;
-  boomBox.games[0] = &simonSays;
+  boomBox.games[0] = &simonSays; // WHY AND
   Serial.begin( 57600 );
 }
 
@@ -65,7 +68,7 @@ void loop() {
   	boomBox.games[i]->updateModule();
   }
   led.update();
-  delay(100);//Temporary delay to stop game from updating too rapidly
+  delay(50);//Temporary delay to stop game from updating too rapidly
 }
 
 

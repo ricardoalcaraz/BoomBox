@@ -76,10 +76,11 @@ void LED::clearAllLEDS() {
 /*Set the status LEDs
  *They are currently the 6 most significant bits
  * of byte 1*/
-void LED::setStatus(uint8_t status){
-  uint8_t statusMask = status;
-  statusMask &= B11111100; //clear last two leds since these are the morse code leds
-  byte1 |= statusMask;
+void LED::setStatus(uint8_t statusLED){
+  byte1 &= B00000011; //Clear all LEDS except last two
+  const uint8_t statusMask = B11111100;
+  statusLED &= statusMask; //clear last two leds since these are the morse code leds
+  byte1 |= statusLED;
 }
 
 void LED::setByte2( uint8_t info ) {

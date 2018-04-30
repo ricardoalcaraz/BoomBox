@@ -38,12 +38,6 @@ class SimonSaysModule : public GameModule, public Observer{
 		const uint8_t greenButton = 34;
 		const uint8_t purpleButton = 33;
 
-		// Boolean specific LED
-		const int8_t blueLED = B00001000;
-		const int8_t redLED = B00010000;
-		const int8_t greenLED = B00100000;
-		const int8_t purpleLED = B11000000;
-
 		// All LEDS off
 		const int8_t LEDoff = B00000000;
 
@@ -57,8 +51,6 @@ class SimonSaysModule : public GameModule, public Observer{
 		// Current position in Simon Says Sequence LED display
 		// How many LEDs should be shown
 		uint8_t simonSaysRound = 2;
-		// Toggles between on and off
-		uint8_t nextState = LOW; 
 
 		// What is actually being displayed for LEDS
 		uint8_t currentSSDisplay = 0;

@@ -21,6 +21,10 @@
  * SER  - MOSI
  * RCLK - SS
  * SCLK - SCLK
+ * TOP FROM BOTTOM 
+ * 11
+ * GREEN - 10
+ * 13
  */
  
 class LED {
@@ -39,7 +43,7 @@ class LED {
 		static void setMorse2();
 		static void clearMorse1();
 		static void clearMorse2();
-        static void setSSPin( uint8_t pin);
+    static void setSSPin( uint8_t pin);
 
 		//Set all the LEDS to be on
         static void setAllLEDS();
