@@ -68,7 +68,7 @@ void loop() {
   	boomBox.games[i]->updateModule();
   }
   led.update();
-  delay(50);//Temporary delay to stop game from updating too rapidly
+  delay(100);//Temporary delay to stop game from updating too rapidly
 }
 
 

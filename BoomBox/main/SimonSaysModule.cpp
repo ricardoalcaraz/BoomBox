@@ -50,7 +50,24 @@ void SimonSaysModule::initializeLEDSequence() {
 
 
 void SimonSaysModule::initializeButtonSequence( uint8_t code ) {
-  //Determines how the buttons should be pressed based on code
+
+  for( int x = 2; x < 10; x++ ) {
+       switch ( simonSaysSequence[x]  ) {
+        case 1:
+        buttonSequence[x] = 1;
+        break;
+        case 2: 
+        buttonSequence[x] = 2;
+        break;
+        case 3: 
+        buttonSequence[x] = 3;
+        break;
+        case 4: 
+        buttonSequence[x] = 4;
+        break;
+      }  
+  }
+//  Determines how the buttons should be pressed based on code
   // Fantasia
 	if ( code == 0 ) {
 		for( int x = 2; x < 10; x++ ) {
@@ -225,6 +242,7 @@ void SimonSaysModule::playSimonSays() {
     Serial.print("PRESS: ");
     Serial.println( buttonSequence[ buttonRound ] ); 
 
+    
     // Checks to see if the button pressed is correct
 		if ( buttonPressed == buttonSequence[ buttonRound ] ) {
       // Once user presses the last button in sequence
@@ -250,18 +268,18 @@ void SimonSaysModule::playSimonSays() {
 
 
 // Boolean specific LED
-const int8_t blueLED = B00001000;
-const int8_t redLED = B00010000;
+const int8_t blueLED = B10000000;
+const int8_t redLED = B01000000;
 const int8_t greenLED = B00100000;
-const int8_t purpleLED = B11000000;
+const int8_t purpleLED = B00011000;
     
 void SimonSaysModule::displaySimonSays( ){
   static uint8_t displayLED = B00000000;
   static uint8_t nextState = LOW;
- 
+
 	if ( simonSaysRound != 10 ) { 
     // If the game is not over
-    Serial.println(simonSaysSequence[currentSSDisplay]);
+    Serial.println( simonSaysSequence[currentSSDisplay] );
 		switch ( simonSaysSequence[currentSSDisplay] ) {
       // Used for period between displayed sequences
 			case 0: 
@@ -292,24 +310,29 @@ void SimonSaysModule::displaySimonSays( ){
       displayLED = LEDoff;
 		} else {
 			nextState = HIGH;
+      // Restarts sequence
+      if ( currentSSDisplay == simonSaysRound ) {
+        currentSSDisplay = 0;
+      } else {
+        currentSSDisplay ++;
+      }  
+
 		}
-			// Restarts sequence
-			if ( currentSSDisplay == simonSaysRound ) {
-				currentSSDisplay = 0;
-			} else {
-				currentSSDisplay ++;
-			}  
 
     // Stops display LEDs when user is trying to guess the sequence
 		if ( buttonRound != 2 && simonSaysRound != 2  ) {
 			displayLED = LEDoff;
 			currentSSDisplay = 2;
 		}
+
+   Serial.print("CURRENT DISPLAY: ");
+   Serial.println(displayLED);
 		leds->setStatus( displayLED );
 	} else {
 		gameWon = true;
 		leds->setStatus( LEDoff );
 	}
+    
 }
 		
 void SimonSaysModule::receiveDataFromSubject( Subject *subj ) {
