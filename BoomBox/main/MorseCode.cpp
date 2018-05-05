@@ -189,18 +189,17 @@ void MorseCode::nextState2() {
 /*Convert input characters in morse
  *Will return a pointer to the morse generated*/
 char* MorseCode::convertMorse( char morseChar ) {
-  char* morse;
   switch ( morseChar ) {
-      case 'a': morse = ".-";
+      case 'a': return ".-";
                 break;
-      case 'e': morse = ".";
+      case 'e': return ".";
                 break;
-      case 'i': morse = "..";
+      case 'i': return "..";
                 break;
-      case 'p': morse = ".--.";
+      case 'p': return ".--.";
                 break;
-      case 'r': morse = ".-.";
+      case 'r': return ".-.";
                 break;          
     }
-  return morse;   
+    return {};  
 }

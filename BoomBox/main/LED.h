@@ -21,27 +21,51 @@
  * SER  - MOSI
  * RCLK - SS
  * SCLK - SCLK
+ * TOP FROM BOTTOM 
+ * 11
+ * GREEN - 10
+ * 13
  */
  
 class LED {
 	public:
+		//Initialize the display, should only be called once
 		static void init();
+		//Update the display
+		//Should only be called in the main loop
 		static void update();
+
+		//Set the status LEDs
 		static void setStatus(uint8_t status);
+
+		//Function to set the morse LED
 		static void setMorse1();
 		static void setMorse2();
 		static void clearMorse1();
 		static void clearMorse2();
     static void setSSPin( uint8_t pin);
-    static void setAllLEDS();
-    static void clearAllLEDS();
+
+		//Set all the LEDS to be on
+        static void setAllLEDS();
+		//Turn all the LEDs off
+        static void clearAllLEDS();
+
+		//Functions should be added to support the rest of the games
+		static void setByte2( uint8_t info );
 	private:
-		static uint8_t statusLEDs;
+		//least significant 2 bits are used for morse code
+		//most significant 5 bits are used for simon says
+		//One bit unused
 		static uint8_t byte1;
+		//All unused so far
 		static uint8_t byte2;
+		//All unused so far
 		static uint8_t byte3;
+		//All unused so far
 		static uint8_t byte4;
+		//All unused so far
 		static uint8_t byte5;
+		//select pin
 		static uint8_t SSPin;
 };
 

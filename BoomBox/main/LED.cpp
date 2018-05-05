@@ -26,17 +26,17 @@ void LED::setSSPin( uint8_t pin ) {
  */
 void LED::update() {
   digitalWrite(SSPin, LOW);
-  SPI.transfer(byte5);
+  SPI.transfer(byte1);
   SPI.transfer(byte2);
   SPI.transfer(byte3);
   SPI.transfer(byte4);
-  SPI.transfer(byte1);
+  SPI.transfer(byte5);
   digitalWrite(SSPin, HIGH);
 }
 
 /*Set the first Morse LED*/
-//Morse LED will be first two LEDS
-//in byte 
+//Morse LED will be the least two significant
+//bits in byte 1
 void LED::setMorse1() {
   byte1 |= B00000001;  
 }
@@ -46,10 +46,12 @@ void LED::setMorse2() {
   byte1 |= B00000010;
 }
 
+/*Clear only the morse 1 led in byte 1*/
 void LED::clearMorse1() {
   byte1 &= B11111110; 
 }
 
+/*Clear only the morse 2 led in byte 1*/
 void LED::clearMorse2() {
   byte1 &= B11111101;
 }
@@ -71,9 +73,16 @@ void LED::clearAllLEDS() {
   byte5 = 0;
 }
 
-/*Set the status LEDs*/
-void LED::setStatus(uint8_t status){
-	statusLEDs = status;
+/*Set the status LEDs
+ *They are currently the 6 most significant bits
+ * of byte 1*/
+void LED::setStatus(uint8_t statusLED){
+  byte1 &= B00000011; //Clear all LEDS except last two
+  const uint8_t statusMask = B11111100;
+  statusLED &= statusMask; //clear last two leds since these are the morse code leds
+  byte1 |= statusLED;
 }
 
-
+void LED::setByte2( uint8_t info ) {
+	byte2 = info;
+}
