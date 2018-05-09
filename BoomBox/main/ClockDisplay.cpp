@@ -28,6 +28,10 @@ void ClockDisplay::setTime( int16_t seconds ) {
 	}
 }
 
+void ClockDisplay::displayLose() {
+   display.setColon( false );
+   display.setSegments( endDisplay );
+}
 //Receive data as an observer
 /**Update internal second counter when registered to a subject*/
 void ClockDisplay::receiveDataFromSubject( Subject *subj ) {

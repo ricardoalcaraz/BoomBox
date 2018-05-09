@@ -1,4 +1,4 @@
-#ifndef GomeModule_h
+#ifndef GameModule_h
 #define GameModule_h
 /**Generic class that all game modules will use as a base
  * These functions are necessary to provide a standardized way
@@ -8,7 +8,7 @@
 
 class GameModule {
 	public:
-		GameModule(  ){};
+		GameModule( ){};
 		virtual bool isGameCompleted()=0;
 		virtual uint8_t numberErrors()=0;
 		virtual void init( uint8_t code )=0;

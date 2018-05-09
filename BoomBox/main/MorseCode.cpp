@@ -7,30 +7,82 @@ const char pare[4] = {'p','a','r','e'};
 /*Picks the words that will be displayed onto the two
  *leds depending on the input code then updates the led value
  *in the led class*/
-MorseCode::MorseCode(uint8_t code, LED* led) {
-  this->led = led;
-  //Pick which words will be displayed on the LEDs
-  switch( code ) {
-    case 1:
-      for( int i = 0; i < 4; i++ ) {
-        word1[i] = pear[i];
-        word2[i] = pair[i];
-      }
-      break;
-    case 2:
-      for( int i = 0; i < 4; i++ ) {
-        word1[i] = pare[i];
-        word2[i] = pear[i];
-      }
-      break;
-  }
-  
-  //Convert words into morse code
-  for( int i = 0; i < 4; i++ ) {
-    morse1[i] = convertMorse( word1[i] );
-    morse2[i] = convertMorse( word2[i] );
-  }
+MorseCode::MorseCode( LED* led) {
 
+  this->led = led;
+}
+
+/* Inputs a random number from trng to assign a random morse code word
+ * Converts those words to morse code
+ */
+void MorseCode::init( uint8_t code1, uint8_t code2 ) {
+    // Used to randomly determine what morse code to display
+    morseCode1 = code1;
+    morseCode2 = code2;
+
+    // 1 is added to keep the integrety of a double digit number
+    // when be transferred to the button game
+    if( morseCode1 > 2 ) {
+      morseCode1 = morseCode1 % 2 + 1;
+      morseCode1 = 2;
+    }
+    if( morseCode2 > 2 ) {
+      morseCode2 = morseCode2 % 2 + 1;
+      morseCode2 = 3;
+    }
+    
+    // Determines which word will be displayed on the first LED
+    // 1 - Pair
+    // 2 - Pear
+    // 3 - Pare
+    switch( morseCode1 ) {
+      case 1:
+        break;
+      case 2:
+        for( int i = 0; i < 4; i++ ) {
+          word1[i] = pear[i];
+        }
+        break;
+      case 3:
+        for( int i = 0; i < 4; i++ ) {
+          word1[i] = pare[i];
+        }
+        break;
+    }
+
+    // Determines which word will be displayed on the second LED
+    switch( morseCode2 ) {
+      case 1:
+        break;
+      case 2:
+        for( int i = 0; i < 4; i++ ) {
+          word2[i] = pear[i];
+        }
+        break;
+      case 3:
+        for( int i = 0; i < 4; i++ ) {
+          word2[i] = pare[i];
+        }
+        break;
+    }
+    
+    //Convert words into morse code
+    for( int i = 0; i < 4; i++ ) {
+      morse1[i] = convertMorse( word1[i] );
+      morse2[i] = convertMorse( word2[i] );
+    }
+}
+
+/* Combines the two morse code words to be sent out
+ * The first morse code is represented by the first digit
+ * The second morse code is represented by the second digit
+ */
+uint8_t MorseCode::getMorse() {
+  String morse1S = String (morseCode1);
+  String morse2S = String (morseCode2);
+  String combineMorseS = morse1S + morse2S;
+  uint8_t combineMorseI = combineMorseS.toInt();
+  return (uint8_t) combineMorseI;
 }
 
 /*Called every time the associated timer is changed
@@ -65,9 +117,6 @@ void MorseCode::nextState1() {
   static char* currentLetter1 = morse1[0];
   static char currentSymbol1 = currentLetter1[0];
   static char nextSymbol1 = currentSymbol1;
-  
-  
-
   switch( currentSymbol1 ) {
     
     case '#'://designated as space between words

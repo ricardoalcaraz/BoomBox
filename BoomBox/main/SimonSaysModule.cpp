@@ -41,11 +41,8 @@ void SimonSaysModule::initializeLEDSequence() {
 	// Generates random sequence
 	for( int x = 2; x < 10; x++ ) {
 		simonSaysSequence[x] =  ( ranNum.trng() % 4 ) + 1;
-    Serial.print(simonSaysSequence[x]);
-    Serial.print(" ");
 		// buttonSequence[x] = simonSaysSequence[x];
 	}
-  Serial.println("");
 }
 
 
@@ -238,9 +235,6 @@ void SimonSaysModule::playSimonSays() {
 		} else {
 		  buttonPressed = 0;
 		}
-   
-    Serial.print("PRESS: ");
-    Serial.println( buttonSequence[ buttonRound ] ); 
 
     
     // Checks to see if the button pressed is correct
@@ -279,27 +273,21 @@ void SimonSaysModule::displaySimonSays( ){
 
 	if ( simonSaysRound != 10 ) { 
     // If the game is not over
-    Serial.println( simonSaysSequence[currentSSDisplay] );
-		switch ( simonSaysSequence[currentSSDisplay] ) {
+ 		switch ( simonSaysSequence[currentSSDisplay] ) {
       // Used for period between displayed sequences
 			case 0: 
-        Serial.println("DISPLAY: OFF");
-				displayLED = LEDoff;
+        displayLED = LEDoff;
 				break;
 			case 1:
-        Serial.println("DISPLAY: BLUE");
 				displayLED = blueLED;
 				break;
 			case 2: 
-        Serial.println("DISPLAY: RED");
 				displayLED = redLED;
 				break;
 			case 3: 
-        Serial.println("DISPLAY: GREEN");
 				displayLED = greenLED;
 				break;
 			case 4: 
-        Serial.println("DISPLAY: PURPLE");
 				displayLED = purpleLED;
 				break;
 		}
@@ -324,9 +312,6 @@ void SimonSaysModule::displaySimonSays( ){
 			displayLED = LEDoff;
 			currentSSDisplay = 2;
 		}
-
-   Serial.print("CURRENT DISPLAY: ");
-   Serial.println(displayLED);
 		leds->setStatus( displayLED );
 	} else {
 		gameWon = true;

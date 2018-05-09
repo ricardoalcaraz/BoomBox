@@ -45,11 +45,16 @@ Z   --..
  *and will update the external led class*/
 class MorseCode : public Observer {
   public:
-    MorseCode(uint8_t code, LED*);
+    MorseCode( LED* );
+    void init(uint8_t code1, uint8_t code2);
     void receiveDataFromSubject( Subject* );
+    uint8_t getMorse();
   private:
     LED* led;
     char* convertMorse( char morseWord ); 
+    
+    uint8_t morseCode1;
+    uint8_t morseCode2;
     char word1[4];
     char word2[4];
     char* morse1[4];

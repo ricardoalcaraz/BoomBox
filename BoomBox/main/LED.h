@@ -51,7 +51,7 @@ class LED {
         static void clearAllLEDS();
 
 		//Functions should be added to support the rest of the games
-		static void setByte2( uint8_t info );
+		static void setButtonGameLEDS( uint8_t info );
 	private:
 		//least significant 2 bits are used for morse code
 		//most significant 5 bits are used for simon says
