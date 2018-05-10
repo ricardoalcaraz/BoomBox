@@ -78,13 +78,13 @@ void LED::clearAllLEDS() {
  * of byte 1*/
 void LED::setStatus(uint8_t statusLED){
   // Clear all LEDS that is currently being display in byte 1 except the last two
-  byte1 &= B00000011; 
+  byte5 &= B00000011; 
   // Mask used to ensure last two LEDS won't accidentaly be set by by incoming byte
   const uint8_t statusMask = B11111100;
   // Clear the last two bits of incoming LED to esnure morse code is not being changed
   statusLED &= statusMask; 
   // Sets only the Simon Says LeD
-  byte1 |= statusLED;
+  byte5 |= statusLED;
 }
 
 void LED::setButtonGameLEDS( uint8_t info ) {

@@ -12,6 +12,8 @@
 const uint8_t CLK_Pin = 23;
 const uint8_t DIO_Pin = 22;
 
+const uint8_t wireStatusLED = B10000000;
+const uint8_t simonSaysStatusLED = B01000000;
 //Initialize needed objects
 LED led;
 CountdownTimer countdownClock;
@@ -68,7 +70,7 @@ void setup() {
   //Initialize main game structure
   // WHAT DOES THIS DO
   boomBox.size = 2;
-  boomBox.games[0] = &simonSays; // WHY AND
+  boomBox.games[0] = &simonSays; // WHY AND  
   boomBox.games[1] = &buttonGame;
   Serial.println("here");
   Serial.begin( 57600 );
@@ -90,10 +92,19 @@ void loop() {
         boomBox.games[i]->updateModule(); // Update game modules such as display and user interaction
         errors = boomBox.games[i]->numberErrors() + errors; // Gets the number of errors
 
-        // If one game has not been completed
-        if ( boomBox.games[i] -> isGameCompleted() == false ) {
-          checkWin = false;
-        }
+          // If one game has not been completed
+          if ( boomBox.games[i] -> isGameCompleted() == false ) {
+            checkWin = false;
+          } else {
+            switch ( i ) {
+              case 0: 
+                leds.setStatus( wireMiniGame );
+                break;
+              case 1:
+                leds.setStatus( simonSays );
+                break;
+            }
+          }
         // If  a user has made more than three errors they lose
         if ( errors < 4 ) {
           gameWon = 2;
