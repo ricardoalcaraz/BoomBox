@@ -93,3 +93,28 @@ void LED::setButtonGameLEDS( uint8_t info ) {
   info &= statusMask;
   byte2 |= info;
 }
+
+//Set a specific byte to display 
+void LED::setByte1( uint8_t byte ) {
+  byte1 = byte;
+}
+
+//Set a specific byte to display 
+void LED::setByte2( uint8_t byte ) {
+  byte2 = byte;
+}
+
+//Set a specific byte to display 
+void LED::setByte3( uint8_t byte ) {
+  byte3 = byte;
+}
+
+//Set a specific byte to display 
+void LED::setByte1( uint8_t byte ) {
+  byte4 = byte;
+}
+
+//Set a specific byte to display 
+void LED::setByte1( uint8_t byte ) {
+  byte5 = byte;
+}

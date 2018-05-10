@@ -21,8 +21,9 @@ ClockDisplay clockDisplay( CLK_Pin, DIO_Pin );
 LCDDisplay wordScreen;
 SimonSaysModule simonSays( &led );
 ButtonGameModule buttonGame( &led );
+ScoreKeeper score;
 
-uint8_t wordScreecnCode;
+uint8_t wordScreenCode;
 
 bool checkWin;
 
@@ -30,7 +31,6 @@ HalfSecondTimer halfSecClk;
 MorseCode morse( &led );
 //--------------------------------------------------
 
-// WHAT DOES THIS DOO????
 struct BoomBox_t {
   GameModule** games = new GameModule*[6];
   uint8_t size;
@@ -59,6 +59,8 @@ void setup() {
   clockDisplay.attachSubject( countdownClock.getSubject() );
 
   rngsetup(); //temporary will be replaced with random object later
+  
+  bool gameWon=false;
 
   //Start clock that updates observers every half second
   halfSecClk.start();
@@ -68,69 +70,31 @@ void setup() {
   buttonGame.attachSubject( countdownClock.getSubject() );
   
   //Initialize main game structure
-  // WHAT DOES THIS DO
   boomBox.size = 2;
   boomBox.games[0] = &simonSays; // WHY AND  
   boomBox.games[1] = &buttonGame;
-  Serial.println("here");
+ // boomBox.games[2] = &cutWiresGame;
+  Serial.println("Starting Game");
   Serial.begin( 57600 );
 }
 
+//Main loop
 void loop() {
   static uint8_t gameWon = 0;
   static uint8_t errors = 0;
-  if ( countdownClock.getCurrentTime() == 0 ) {
-    gameWon = 2;
+  while( !gameWon ) {
+    for( int i = 0; i < boomBox.size; i++ ) {
+      boomBox.games[i]->updateModule();
+    }
+    for( int i = 0; i<boomBox.size;i++ ) {
+      uint8_t tempScore = boomBox.games[i]->getErrorsMade();    
+      score.numErrors( tempScore );
+      gameWon = score.isGameWon();
+    }
+    led.update();
+    delay(100);//Temporary delay to stop game from updating too rapidly
   }
-  switch ( gameWon ) {
-    case 0: // Playing Game
-      // Updates all module
-      // Checks to see the number of errors made in each game
-      // Checks to see if the user won any games
-      checkWin = true; // Set true as default, will be set false if one game is not completed
-      for( int i = 0; i < boomBox.size; i++ ) {
-        boomBox.games[i]->updateModule(); // Update game modules such as display and user interaction
-        errors = boomBox.games[i]->numberErrors() + errors; // Gets the number of errors
-
-          // If one game has not been completed
-          if ( boomBox.games[i] -> isGameCompleted() == false ) {
-            checkWin = false;
-          } else {
-            switch ( i ) {
-              case 0: 
-                leds.setStatus( wireMiniGame );
-                break;
-              case 1:
-                leds.setStatus( simonSays );
-                break;
-            }
-          }
-        // If  a user has made more than three errors they lose
-        if ( errors < 4 ) {
-          gameWon = 2;
-        }
-      }
-
-      if ( checkWin == true ) {
-        gameWon = 1;
-      }
-      break;
-    case 1: // Won Game
-      countdownClock.stopCountdown();
-      break;
-    case 2: // Lost Game
-      countdownClock.stopCountdown();
-      clockDisplay.displayLose();
-      for( int i = 0; i < boomBox.size; i++ ) {
-        boomBox.games[i]->terminate(); // Update game modules such as display and user interaction
-      }
-      break;
-  }
-  
-  Serial.println( "Code Word: ");
-  Serial.println( wordScreen.getCode() );
-  led.update();
-  delay(100);//Temporary delay to stop game from updating too rapidly
+  sleep();
 }
 
 
