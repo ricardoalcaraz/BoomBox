@@ -110,11 +110,11 @@ void LED::setByte3( uint8_t byte ) {
 }
 
 //Set a specific byte to display 
-void LED::setByte1( uint8_t byte ) {
+void LED::setByte4( uint8_t byte ) {
   byte4 = byte;
 }
 
 //Set a specific byte to display 
-void LED::setByte1( uint8_t byte ) {
+void LED::setByte5( uint8_t byte ) {
   byte5 = byte;
 }

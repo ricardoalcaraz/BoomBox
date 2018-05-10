@@ -21,7 +21,7 @@ ClockDisplay clockDisplay( CLK_Pin, DIO_Pin );
 LCDDisplay wordScreen;
 SimonSaysModule simonSays( &led );
 ButtonGameModule buttonGame( &led );
-ScoreKeeper score;
+ScoreKeeper score( 3, 4 );
 
 uint8_t wordScreenCode;
 
@@ -87,14 +87,14 @@ void loop() {
       boomBox.games[i]->updateModule();
     }
     for( int i = 0; i<boomBox.size;i++ ) {
-      uint8_t tempScore = boomBox.games[i]->getErrorsMade();    
+      uint8_t tempScore = boomBox.games[i]->numberErrors();    
       score.numErrors( tempScore );
       gameWon = score.isGameWon();
     }
     led.update();
     delay(100);//Temporary delay to stop game from updating too rapidly
   }
-  sleep();
+  //sleep
 }
 
 
