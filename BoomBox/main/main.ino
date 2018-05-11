@@ -8,6 +8,7 @@
 #include "MorseCode.h"
 #include "SimonSaysModule.h"
 #include "ButtonGameModule.h"
+#include "ObserverTester.h"
 //Pin declarations
 const uint8_t CLK_Pin = 23;
 const uint8_t DIO_Pin = 22;
@@ -37,6 +38,8 @@ struct BoomBox_t {
 }; typedef struct BoomBox_t BoomBox;
 
 BoomBox boomBox;
+
+ObserverTester observerTester;
 
 void setup() {
 
@@ -71,7 +74,7 @@ void setup() {
   
   //Initialize main game structure
   boomBox.size = 2;
-  boomBox.games[0] = &simonSays; // WHY AND  
+  boomBox.games[0] = &simonSays;
   boomBox.games[1] = &buttonGame;
  // boomBox.games[2] = &cutWiresGame;
   Serial.println("Starting Game");
@@ -80,21 +83,28 @@ void setup() {
 
 //Main loop
 void loop() {
-  static uint8_t gameWon = 0;
-  static uint8_t errors = 0;
-  while( !gameWon ) {
-    for( int i = 0; i < boomBox.size; i++ ) {
-      boomBox.games[i]->updateModule();
-    }
-    for( int i = 0; i<boomBox.size;i++ ) {
-      uint8_t tempScore = boomBox.games[i]->numberErrors();    
-      score.numErrors( tempScore );
-      gameWon = score.isGameWon();
-    }
-    led.update();
-    delay(100);//Temporary delay to stop game from updating too rapidly
-  }
-  //sleep
+  //Check if observers can register and receive data from subject check serial output to see if it works
+  observerTester.attachSubject( countdownClock.getSubject() );
+  delay(2200);
+  //unregister observers serial output should only have previous two entries
+  countdownClock.getSubject()->unregisterObserver( 0 );
+  delay(2000);
+  //Check if observer can register with half second clock
+  observerTester.attachSubject( halfSecondClk.getSubject() );
+  delay(2200);
+  //4 outputs should appear and they should be one
+  halfSecondClk.getSubject()->unregisterObserver( 0 );
+  delay(2000);
+
+  //Nothing should appear
+
+  //Visual check for all leds
+  Serial.println("ALL Leds will blink twice then stay off, check for correct behavior");
+  led.setAllLEDS();
+  delay(1000);
+  led.clearAllLEDS();
+  delay(1000);
+  led.setAllLEDS();
 }
 
 
