@@ -58,7 +58,7 @@ void setup() {
   //Update any observers that may need this info
   clockDisplay.attachSubject( countdownClock.getSubject() );
   //Create clock that countdown every second
-  countdownClock.startCountdown( 360 );
+  
   one_sec_timer_init();
   
   
@@ -78,12 +78,20 @@ void setup() {
 //  boomBox.games[1] = &buttonGame;
 // // boomBox.games[2] = &cutWiresGame;
 //  Serial.println("Starting Game");
+  countdownClock.startCountdown( 360 );
   Serial.begin( 57600 );
 }
 
 //Main loop
 void loop() {
-  delay(100);
+  Serial.println( countdownClock.getCurrentTime() );
+  if ( countdownClock.getCurrentTime() % 3 == 0 ) {
+    countdownClock.resetCountdown();
+    
+    
+  }
+  delay(1000);
+  
 }
 
 void one_sec_timer_init() {
