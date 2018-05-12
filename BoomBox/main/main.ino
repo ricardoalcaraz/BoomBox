@@ -91,7 +91,18 @@ void loop() {
     
   }
   delay(1000);
-  
+
+  //Check if observers can register and receive data from subject check serial output to see if it works
+  observerTester.attachSubject( countdownClock.getSubject() );
+  delay(2200);
+  //unregister observers serial output should only have previous two entries
+  countdownClock.getSubject()->unregisterObserver( 0 );
+  delay(2000);
+  //Check if observer can register with half second clock
+  observerTester.attachSubject( halfSecondClk.getSubject() );
+  delay(2200);
+  //4 outputs should appear and they should be one
+halfSecondClk.getSubject()->unregisterObserver( 0 );
 }
 
 void one_sec_timer_init() {
