@@ -10,8 +10,8 @@
 #include "ButtonGameModule.h"
 #include "ObserverTester.h"
 //Pin declarations
-const uint8_t CLK_Pin = 23;
-const uint8_t DIO_Pin = 22;
+const uint8_t CLK_Pin = A3;
+const uint8_t DIO_Pin = A2;
 
 const uint8_t wireStatusLED = B10000000;
 const uint8_t simonSaysStatusLED = B01000000;
@@ -48,7 +48,7 @@ void setup() {
   //Initialize the leds
   led.init();
   //Initialize wordscreen
-  wordScreen.init( random(100) );
+  wordScreen.init( 1 );
   
   // Initalize the Button Game
   buttonGame.init( morse.getMorse() );
@@ -58,51 +58,32 @@ void setup() {
   
   //Create clock that countdown every second
   countdownClock.startCountdown( 360 );
+  
   //Update any observers that may need this info
   clockDisplay.attachSubject( countdownClock.getSubject() );
   
   bool gameWon=false;
 
-  //Start clock that updates observers every half second
-  halfSecClk.start();
-  //Attach any interested observers to half second clock
-  morse.attachSubject( halfSecondClk.getSubject() );
-  simonSays.attachSubject( halfSecondClk.getSubject() );
-  buttonGame.attachSubject( countdownClock.getSubject() );
   
-  //Initialize main game structure
-  boomBox.size = 2;
-  boomBox.games[0] = &simonSays;
-  boomBox.games[1] = &buttonGame;
- // boomBox.games[2] = &cutWiresGame;
-  Serial.println("Starting Game");
-  Serial.begin( 57600 );
+  //Start clock that updates observers every half second
+//  halfSecClk.start();
+//  //Attach any interested observers to half second clock
+//  morse.attachSubject( halfSecondClk.getSubject() );
+//  simonSays.attachSubject( halfSecondClk.getSubject() );
+//  buttonGame.attachSubject( countdownClock.getSubject() );
+  
+//  //Initialize main game structure
+//  boomBox.size = 2;
+//  boomBox.games[0] = &simonSays;
+//  boomBox.games[1] = &buttonGame;
+// // boomBox.games[2] = &cutWiresGame;
+//  Serial.println("Starting Game");
+//  Serial.begin( 57600 );
 }
 
 //Main loop
 void loop() {
-  //Check if observers can register and receive data from subject check serial output to see if it works
-  observerTester.attachSubject( countdownClock.getSubject() );
-  delay(2200);
-  //unregister observers serial output should only have previous two entries
-  countdownClock.getSubject()->unregisterObserver( 0 );
-  delay(2000);
-  //Check if observer can register with half second clock
-  observerTester.attachSubject( halfSecondClk.getSubject() );
-  delay(2200);
-  //4 outputs should appear and they should be one
-  halfSecondClk.getSubject()->unregisterObserver( 0 );
-  delay(2000);
 
-  //Nothing should appear
-
-  //Visual check for all leds
-  Serial.println("ALL Leds will blink twice then stay off, check for correct behavior");
-  led.setAllLEDS();
-  delay(1000);
-  led.clearAllLEDS();
-  delay(1000);
-  led.setAllLEDS();
 }
 
 
