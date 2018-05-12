@@ -10,7 +10,6 @@ HalfSecondTimer::HalfSecondTimer() {
 
 //Start the subroutine for hald second intervals
 void HalfSecondTimer::start() {
-  halfSecondTimer.begin( outerISR, 500000 );
 }
 
 //Return internal subject so observer can register to it

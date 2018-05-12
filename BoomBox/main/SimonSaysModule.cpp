@@ -40,7 +40,7 @@ void SimonSaysModule::initializeLEDSequence() {
 
 	// Generates random sequence
 	for( int x = 2; x < 10; x++ ) {
-		simonSaysSequence[x] =  ( ranNum.trng() % 4 ) + 1;
+		simonSaysSequence[x] =  random(1,5);
 		// buttonSequence[x] = simonSaysSequence[x];
 	}
 }

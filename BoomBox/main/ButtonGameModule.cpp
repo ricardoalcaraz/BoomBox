@@ -45,7 +45,7 @@ void ButtonGameModule::updateModule() {
 	// Enters when game is not finished
 	if ( gameWon == false ) {
 	// Generates random LED to display
-	static uint8_t ranLED = ranNum.trng() % 4;
+	static uint8_t ranLED = random(1,5);
 	// If the button is pressed
 		if ( pressButton.fell() ) {
 			// Displays the random LED
@@ -83,7 +83,7 @@ void ButtonGameModule::updateModule() {
 
 			// Adds an error when incorrect release and generates another number
 			if ( gameWon == false ) {
-				ranLED = ranNum.trng() % 4;
+				ranLED = random(1,5);
 				errors++;
 			}
 		  

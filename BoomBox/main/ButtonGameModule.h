@@ -4,7 +4,6 @@
 //so we can all have the same behavior and not have to install libraries
 #include "Bounce2.h"
 #include "LED.h"
-#include "RandomNumber.h"
 #include "GameModule.h"
 #include "Observer.h"
 #include "Arduino.h"
@@ -31,7 +30,6 @@ class ButtonGameModule : public GameModule, public Observer{
 		// Used to display LEDS
 		LED* leds;//Points to object that holds the data
 		
-		RandomNumber ranNum;
 
 		// Random LED to displayed
 		uint8_t displayLED;

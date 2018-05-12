@@ -45,7 +45,6 @@ class CountdownTimer:public Subject {
 		
 	private:
 		static int16_t initialTime;
-		IntervalTimer clockTimer;
 		static Subject subj;
 };
 

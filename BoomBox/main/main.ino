@@ -44,11 +44,11 @@ ObserverTester observerTester;
 void setup() {
 
   // Initialize morse code
-  morse.init( trng(), trng() );
+  morse.init( random(100), random(100) );
   //Initialize the leds
   led.init();
   //Initialize wordscreen
-  wordScreen.init( trng() );
+  wordScreen.init( random(100) );
   
   // Initalize the Button Game
   buttonGame.init( morse.getMorse() );
@@ -60,8 +60,6 @@ void setup() {
   countdownClock.startCountdown( 360 );
   //Update any observers that may need this info
   clockDisplay.attachSubject( countdownClock.getSubject() );
-
-  rngsetup(); //temporary will be replaced with random object later
   
   bool gameWon=false;
 

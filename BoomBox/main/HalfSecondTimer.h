@@ -15,7 +15,6 @@ class HalfSecondTimer:public Subject {
     Subject* getSubject();
     void tick();
   private:
-    IntervalTimer halfSecondTimer;
     static Subject subj;
 };
 

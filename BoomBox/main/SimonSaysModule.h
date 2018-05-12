@@ -4,7 +4,6 @@
 //so we can all have the same behavior and not have to install libraries
 #include "Bounce2.h"
 #include "LED.h"
-#include "RandomNumber.h"
 #include "GameModule.h"
 #include "Observer.h"
 #include "Arduino.h"
@@ -30,7 +29,6 @@ class SimonSaysModule : public GameModule, public Observer{
 		// Used to display LEDS
 		LED* leds;//Points to object that holds the data
 		
-		RandomNumber ranNum;
 
 		// Pins for buttons
 		const uint8_t blueButton = 36;
@@ -65,7 +63,6 @@ class SimonSaysModule : public GameModule, public Observer{
 		Bounce purple = Bounce();
 
 		// Used to display sequence
-		IntervalTimer simonSaysTimer;
 
 		// Errors
 		uint8_t errors = 0;
