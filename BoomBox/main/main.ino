@@ -55,12 +55,12 @@ void setup() {
 
   //Initialize Simon Says
   simonSays.init( wordScreen.getCode() );
-  
-  //Create clock that countdown every second
-  countdownClock.startCountdown( 360 );
-  one_sec_timer_init();
   //Update any observers that may need this info
   clockDisplay.attachSubject( countdownClock.getSubject() );
+  //Create clock that countdown every second
+  
+  one_sec_timer_init();
+  
   
   bool gameWon=false;
 
@@ -78,12 +78,20 @@ void setup() {
 //  boomBox.games[1] = &buttonGame;
 // // boomBox.games[2] = &cutWiresGame;
 //  Serial.println("Starting Game");
-//  Serial.begin( 57600 );
+  countdownClock.startCountdown( 360 );
+  Serial.begin( 57600 );
 }
 
 //Main loop
 void loop() {
-
+  Serial.println( countdownClock.getCurrentTime() );
+  if ( countdownClock.getCurrentTime() % 3 == 0 ) {
+    countdownClock.resetCountdown();
+    
+    
+  }
+  delay(1000);
+  
 }
 
 void one_sec_timer_init() {
@@ -94,6 +102,7 @@ void one_sec_timer_init() {
   OCR1A = 15624;// = (16*10^6) / (1*1024) - 1 (must be <65536)
   OCR1B = 31248;
   // turn on CTC mode
+  
   TCCR1B |= (1 << WGM12);
   // Set CS10 and CS12 bits for 1024 prescaler
   TCCR1B |= (1 << CS12) | (1 << CS10);  
@@ -102,8 +111,11 @@ void one_sec_timer_init() {
   TIMSK1 |= (1 << OCIE1B);
 }
 
+
 ISR(TIMER1_COMPA_vect){
-  countdown.countdown();
+//generates pulse wave of frequency 1Hz/2 = 0.5kHz (takes two cycles for full wave- toggle high then toggle low)
+  countdownClock.countdown();
+
 }
 
 ISR(TIMER_COMPB_vect){

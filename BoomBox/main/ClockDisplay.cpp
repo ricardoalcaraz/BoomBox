@@ -36,6 +36,6 @@ void ClockDisplay::displayLose() {
 /**Update internal second counter when registered to a subject*/
 void ClockDisplay::receiveDataFromSubject( Subject *subj ) {
 	this->seconds = subj->getVal();
- Serial.println( this-> seconds);
+ //Serial.println( this-> seconds);
 	setTime( this->seconds );
 }
