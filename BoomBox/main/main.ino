@@ -100,3 +100,7 @@ void one_sec_timer_init() {
   TIMSK1 |= (1 << OCIE1A);
 }
 
+ISR(TIMER1_COMPA_vect){//timer1 interrupt 1Hz toggles pin 13 (LED)
+//generates pulse wave of frequency 1Hz/2 = 0.5kHz (takes two cycles for full wave- toggle high then toggle low)
+  countdown.countdown();
+}
