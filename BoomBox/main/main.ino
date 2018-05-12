@@ -55,12 +55,12 @@ void setup() {
 
   //Initialize Simon Says
   simonSays.init( wordScreen.getCode() );
-  
+  //Update any observers that may need this info
+  clockDisplay.attachSubject( countdownClock.getSubject() );
   //Create clock that countdown every second
   countdownClock.startCountdown( 360 );
   one_sec_timer_init();
-  //Update any observers that may need this info
-  clockDisplay.attachSubject( countdownClock.getSubject() );
+  
   
   bool gameWon=false;
 
@@ -78,12 +78,12 @@ void setup() {
 //  boomBox.games[1] = &buttonGame;
 // // boomBox.games[2] = &cutWiresGame;
 //  Serial.println("Starting Game");
-//  Serial.begin( 57600 );
+  Serial.begin( 57600 );
 }
 
 //Main loop
 void loop() {
-
+  delay(100);
 }
 
 void one_sec_timer_init() {
@@ -93,6 +93,7 @@ void one_sec_timer_init() {
   // set compare match register for 1hz increments
   OCR1A = 15624;// = (16*10^6) / (1*1024) - 1 (must be <65536)
   // turn on CTC mode
+  
   TCCR1B |= (1 << WGM12);
   // Set CS10 and CS12 bits for 1024 prescaler
   TCCR1B |= (1 << CS12) | (1 << CS10);  
