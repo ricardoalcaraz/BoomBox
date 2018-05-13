@@ -43,8 +43,7 @@ ObserverTester observerTester;
 
 void setup() {
 
-  // Initialize morse code
-  morse.init( random(100), random(100) );
+
   //Initialize the leds
   led.init();
   //Initialize wordscreen
@@ -53,8 +52,7 @@ void setup() {
   // Initalize the Button Game
   buttonGame.init( morse.getMorse() );
 
-  //Initialize Simon Says
-  simonSays.init( wordScreen.getCode() );
+
   //Update any observers that may need this info
   clockDisplay.attachSubject( countdownClock.getSubject() );
   //Create clock that countdown every second
@@ -68,7 +66,7 @@ void setup() {
   //Start clock that updates observers every half second
 //  halfSecClk.start();
 //  //Attach any interested observers to half second clock
-//  morse.attachSubject( halfSecondClk.getSubject() );
+
 //  simonSays.attachSubject( halfSecondClk.getSubject() );
 //  buttonGame.attachSubject( countdownClock.getSubject() );
   
@@ -102,7 +100,69 @@ void loop() {
   observerTester.attachSubject( halfSecondClk.getSubject() );
   delay(2200);
   //4 outputs should appear and they should be one
-halfSecondClk.getSubject()->unregisterObserver( 0 );
+  halfSecondClk.getSubject()->unregisterObserver( 0 );
+
+  static ScoreKeeper testScore( 3, 3 );
+  if(testScore.isGameWon() == false){
+    Serial.println("Scorekeeper game completed works");
+  } else {
+    Serial.println("ScoreKeeper game completed function does not work");
+  }
+  testScore.numErrors( 2 );
+
+  if(testScore.getErrorsMade() == 2 ) {
+    Serial.println("ScoreKeeper score counter works!");
+  } else {
+    Serial.println("ScoreKeeper score counter does not work :(");
+  }
+
+  testScore.gameCompleted();
+  testScore.gameCompleted();
+  testScore.gameCompleted();
+  if(testScore.isGameWon()==true){
+    Serial.println("Score keeper game tracker works");
+  } else {
+    Serial.println("Score keeper game tracker does not work");
+  }
+
+  //Testing the morse code
+  Serial.println("Testing morse code. View attached LEDs and make sure they're blinking properly");
+  morse.attachSubject( halfSecondClk.getSubject() );
+
+  //Cut Wire Game Testing
+//  Static CutWireGameModule wireGame;
+//  Serial.println("Make sure wires are attached from pins 1-8");
+//  wireGame.init(1);
+//  Serial.println("Please attach wires from pin 1 to pin 5 and from pin 2 to 8 and from 3 to 7");
+//  delay(2000);
+//  if(wireGame.getCurrentStage==2){
+//    Serial.println("Stage 1 solved correctly");
+//  } else{
+//    Serial.println("Stage solved incorrectly or does not work, double check connections and reset");
+//  }
+//  Serial.println("Please attach wires from pin 2 to pin 5 and from pin 2 to 8 and from 4 to 5");
+//  delay(2000);
+//  if(wireGame.getCurrentStage==3){
+//    Serial.println("Stage 2 solved correctly");
+//  }else{
+//    Serial.println("Stage solved incorrectly or does not work, double check connections and reset");
+//  }
+//  Serial.println("Please attach wires from pin 1 to pin 3 and from pin 2 to 4 and from 6 to 8");
+//  delay(2000);
+//  if(wireGame.getCurrentStage==4){
+//    Serial.println("Stage 3 solved correctly");
+//  }else{
+//    Serial.println("Stage solved incorrectly or does not work, double check connections and reset");
+//  }
+
+//  Serial.println("Please attach buttons to pins 1-4 and leds to pins 5-8");
+//  Serial.println("Follow the sequence of leds");
+//    //Initialize Simon Says
+//  simonSays.init( 1 );
+//  while( !simonSays.isGameCompleted() ){
+//    
+//  }
+  
 }
 
 void one_sec_timer_init() {

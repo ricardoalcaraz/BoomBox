@@ -38,22 +38,22 @@ void LED::update() {
 //Morse LED will be the least two significant
 //bits in byte 1
 void LED::setMorse1() {
-  byte1 |= B00000001;  
+  digitalWrite(2, HIGH); 
 }
 
 /*Set the 2nd Morse LED*/
 void LED::setMorse2() {
-  byte1 |= B00000010;
+  digitalWrite(3, HIGH); 
 }
 
 /*Clear only the morse 1 led in byte 1*/
 void LED::clearMorse1() {
-  byte1 &= B11111110; 
+  digitalWrite(2, LOW); 
 }
 
 /*Clear only the morse 2 led in byte 1*/
 void LED::clearMorse2() {
-  byte1 &= B11111101;
+  digitalWrite(3, LOW); 
 }
 
 
